@@ -25,17 +25,17 @@ const ADS_TITLES = [
 ];
 
 //Функция, которая возвращает целое положительное число из заданного диапазона
-const getRandomPositiveInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+const getRandomPositiveInteger = (first, second) => {
+  const lower = Math.ceil(Math.min(Math.abs(first), Math.abs(second)));
+  const upper = Math.floor(Math.max(Math.abs(first), Math.abs(second)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
 
 //Функция, которая возвращает положительное число с плавающей точкой
-const getRandomPositiveFloat = (a, b, digits = 1) => {
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
+const getRandomPositiveFloat = (first, second, digits = 1) => {
+  const lower = Math.min(Math.abs(first), Math.abs(second));
+  const upper = Math.max(Math.abs(first), Math.abs(second));
   const result = Math.random() * (upper - lower) + lower;
   return +result.toFixed(digits);
 };
@@ -46,7 +46,7 @@ const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,
 //Функция, которая возвращает новый массив случайной длины, взятой из длины переданного в функцию
 const createRandomArray = (values) => {
   const features = new Array(getRandomPositiveInteger(1, values.length));
-  for (let i = 0; i < features.length; i++) {features[i] = values[i];}
+  for (let counter = 0; counter < features.length; counter++) {features[counter] = values[counter];}
   return features;
 };
 
@@ -90,11 +90,11 @@ const createAd = (avatarNumber) => {
 //Создаю массив которых состоит из объектов объявлений
 const createAds = () => {
   const massiveAds = [];
-  for (let i = 1; i < ADS_NUMBERS + 1; i++) {
-    const avatarNumber = (i < 10) ? `0${i}` : `${i}`;
+  for (let counter = 1; counter < ADS_NUMBERS + 1; counter++) {
+    const avatarNumber = (counter < 10) ? `0${counter}` : `${counter}`;
     massiveAds.push(createAd(avatarNumber));
   }
   return massiveAds;
 };
 
-console.log(createAds());
+createAds();
