@@ -87,4 +87,3 @@ const createPopup = (ad) => {
 };
 
 similarListElement.append(createPopup(similarAds[0]));
-console.log(similarListElement);
