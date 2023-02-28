@@ -2,7 +2,6 @@ import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement,
 
 //Создаю все необходимые массивы данных, с которыми буду потом работать с помощью функций
 
-const ADS_NUMBERS = 10;
 const ADS_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const CHECK_IN = ['12:00', '13:00', '14:00'];
 const CHECK_OUT = ['12:00', '13:00', '14:00'];
@@ -65,9 +64,9 @@ const createAd = (avatarNumber) => {
 };
 
 //Создаю массив которых состоит из объектов объявлений
-const createAds = () => {
+const createAds = (count) => {
   const massiveAds = [];
-  for (let i = 1; i < ADS_NUMBERS + 1; i++) {
+  for (let i = 1; i < count + 1; i++) {
     const avatarNumber = (i < 10) ? `0${i}` : `${i}`;
     massiveAds.push(createAd(avatarNumber));
   }
