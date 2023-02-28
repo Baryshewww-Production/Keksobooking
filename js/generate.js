@@ -1,7 +1,3 @@
-import {createAds} from './data';
-
-const COUNT_OF_ADS = 10;
-
 const ADS_TYPE_CAPTIONS = {
   palace: 'Дворец',
   flat: 'Квартира',
@@ -10,12 +6,8 @@ const ADS_TYPE_CAPTIONS = {
   hotel: 'Отель',
 };
 
-//Нахожу главный шаблон карточки и карты, куда он будет вставляться
-const similarListElement = document.querySelector('#map-canvas');
+//Нахожу главный шаблон карточки
 const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-//Записываю в переменную массив всех сгенерированных объектов с данными
-const similarAds = createAds(COUNT_OF_ADS);
 
 //Функция сначала в шаблоне делает клон img, каждому элементу добавляет src, добавляет его в конец шаблона, а после
 // всего удаляет этот самый клон(первый элемент[0])
@@ -86,4 +78,4 @@ const createPopup = (ad) => {
   return adElement;
 };
 
-similarListElement.append(createPopup(similarAds[0]));
+export {createPopup};
