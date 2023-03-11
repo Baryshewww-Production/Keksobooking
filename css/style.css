@@ -1029,6 +1029,8 @@ fieldset {
   display: none;
 }
 
+/* Валидация формы заполнения объявления */
+
 .form-container {
   margin: 80px auto;
   width: 500px;
@@ -1055,25 +1057,17 @@ label {
   margin-bottom: 2px;
 }
 
-.form__error {
+.ad-form__error {
   color: #dc1d34;
   display: block;
   margin-top: 5px;
   font-size: 12px;
 }
 
-.form__item--invalid input {
+.ad-form__item--invalid input {
   border-color: #ffaa99;
 }
 
-.form__item--invalid select {
+.ad-form__item--invalid select {
   border-color: #ffaa99;
-}
-
-.form__item--valid input {
-  border-color: #1eb16c;
-}
-
-.form__item--valid select {
-  border-color: #1eb16c;
 }
