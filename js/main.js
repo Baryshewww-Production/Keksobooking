@@ -1,13 +1,15 @@
 import {createPopup} from './generate.js';
-import {toggleFormDisabled} from './form.js';
+import {toggleFormDisabled} from './form-switcher.js';
 import {createAds} from './data.js';
-import './form-validator.js';
+import {validateAdForm} from './form-validator.js';
+
+'./form-validator.js';
 
 const COUNT_OF_ADS = 10;
 
 //Записываю в переменную массив всех сгенерированных объектов с данными
 const similarAds = createAds(COUNT_OF_ADS);
 
-toggleFormDisabled(false);
-
 document.querySelector('#map-canvas').append(createPopup(similarAds[5]));
+
+validateAdForm();
