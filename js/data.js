@@ -1,11 +1,51 @@
 import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, createRandomArray} from './util.js';
 
 //Создаю все необходимые массивы данных, с которыми буду потом работать с помощью функций
+const ADS_TYPES = {
+  palace: 'palace',
+  flat: 'flat',
+  house: 'house',
+  bungalow: 'bungalow',
+  hotel: 'hotel',
+};
 
-const ADS_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const CHECK_IN = ['12:00', '13:00', '14:00'];
-const CHECK_OUT = ['12:00', '13:00', '14:00'];
-const ADS_FEATURES = ['wifi', 'dishwasher', 'parking', 'dishwasher', 'elevator'];
+const AD_TYPES_TO_READABLE = {
+  [ADS_TYPES.palace]: 'Дворец',
+  [ADS_TYPES.flat]: 'Квартира',
+  [ADS_TYPES.house]: 'Дом',
+  [ADS_TYPES.bungalow]: 'Бунгало',
+  [ADS_TYPES.hotel]: 'Отель',
+};
+
+const AD_TYPES_TO_PRICE = {
+  [ADS_TYPES.palace]: 10000,
+  [ADS_TYPES.flat]: 1000,
+  [ADS_TYPES.house]: 5000,
+  [ADS_TYPES.bungalow]: 0,
+  [ADS_TYPES.hotel]: 3000,
+};
+
+const CHECK_IN = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+const CHECK_OUT = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+const ADS_FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
+];
+
 const ADS_DESCRIPTION = [
   'Все окна на север',
   'Тихие соседи',
@@ -13,11 +53,13 @@ const ADS_DESCRIPTION = [
   'Панорамные окна',
   'Личный бассейн с пенной вечеринкой',
 ];
+
 const ADS_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
+
 const ADS_TITLES = [
   'Просторное помещение',
   'Тихое, уютное место для двоих',
@@ -36,7 +78,7 @@ const createOffer = (lat, ing) => ({
   title: getRandomArrayElement(ADS_TITLES),
   address: `${lat}, ${ing}`,
   price: getRandomPositiveInteger(1500, 7500),
-  type: getRandomArrayElement(ADS_TYPES),
+  type: getRandomArrayElement(Object.values(ADS_TYPES)),
   rooms: getRandomPositiveInteger(1, 6),
   guests: getRandomPositiveInteger(1, 8),
   checkin: getRandomArrayElement(CHECK_IN),
@@ -73,4 +115,4 @@ const createAds = (count) => {
   return massiveAds;
 };
 
-export {createAds};
+export {createAds, ADS_TYPES, AD_TYPES_TO_READABLE, AD_TYPES_TO_PRICE};
