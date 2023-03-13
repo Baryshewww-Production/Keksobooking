@@ -1,9 +1,8 @@
 import {createPopup} from './generate.js';
-import {toggleFormDisabled} from './form-switcher.js';
+// import {toggleFormDisabled} from './form-switcher.js';
 import {createAds} from './data.js';
 import {validateAdForm} from './form-validator.js';
 
-'./form-validator.js';
 
 const COUNT_OF_ADS = 10;
 
