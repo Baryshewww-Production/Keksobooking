@@ -1,28 +1,28 @@
 import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, createRandomArray} from './util.js';
 
 //Создаю все необходимые массивы данных, с которыми буду потом работать с помощью функций
-const ADS_TYPES = {
-  palace: 'palace',
-  flat: 'flat',
-  house: 'house',
-  bungalow: 'bungalow',
-  hotel: 'hotel',
+const AdsTypes = {
+  PALACE: 'palace',
+  FLAT: 'flat',
+  HOUSE: 'house',
+  BUNGALOW: 'bungalow',
+  HOTEL: 'hotel',
 };
 
-const AD_TYPES_TO_READABLE = {
-  [ADS_TYPES.palace]: 'Дворец',
-  [ADS_TYPES.flat]: 'Квартира',
-  [ADS_TYPES.house]: 'Дом',
-  [ADS_TYPES.bungalow]: 'Бунгало',
-  [ADS_TYPES.hotel]: 'Отель',
+const AdTypesToReadable = {
+  [AdsTypes.PALACE]: 'Дворец',
+  [AdsTypes.FLAT]: 'Квартира',
+  [AdsTypes.HOUSE]: 'Дом',
+  [AdsTypes.BUNGALOW]: 'Бунгало',
+  [AdsTypes.HOTEL]: 'Отель',
 };
 
-const AD_TYPES_TO_PRICE = {
-  [ADS_TYPES.palace]: 10000,
-  [ADS_TYPES.flat]: 1000,
-  [ADS_TYPES.house]: 5000,
-  [ADS_TYPES.bungalow]: 0,
-  [ADS_TYPES.hotel]: 3000,
+const AdTypesToPrice = {
+  [AdsTypes.PALACE]: 10000,
+  [AdsTypes.FLAT]: 1000,
+  [AdsTypes.HOUSE]: 5000,
+  [AdsTypes.BUNGALOW]: 0,
+  [AdsTypes.HOTEL]: 3000,
 };
 
 const CHECK_IN = [
@@ -74,11 +74,11 @@ const createAuthor = (avatarNumber) => ({
 });
 
 //Создаю объект с параметрами помещения
-const createOffer = (lat, ing) => ({
+const createOffer = (lat, lng) => ({
   title: getRandomArrayElement(ADS_TITLES),
-  address: `${lat}, ${ing}`,
+  address: `${lat}, ${lng}`,
   price: getRandomPositiveInteger(1500, 7500),
-  type: getRandomArrayElement(Object.values(ADS_TYPES)),
+  type: getRandomArrayElement(Object.values(AdsTypes)),
   rooms: getRandomPositiveInteger(1, 6),
   guests: getRandomPositiveInteger(1, 8),
   checkin: getRandomArrayElement(CHECK_IN),
@@ -89,19 +89,19 @@ const createOffer = (lat, ing) => ({
 });
 
 //Создаю объект с локацией помещения
-const createLocation = (lat, ing) => ({
+const createLocation = (lat, lng) => ({
   lat,
-  ing,
+  lng,
 });
 
 //Создаю один общий объект включающий три предыдущих. Является наполнением объявления
 const createAd = (avatarNumber) => {
   const lat = getRandomPositiveFloat(35.65000, 35.70000, 5);
-  const ing = getRandomPositiveFloat(139.70000, 139.80000, 5);
+  const lng = getRandomPositiveFloat(139.70000, 139.80000, 5);
   return {
     author: createAuthor(avatarNumber),
-    offer: createOffer(lat, ing),
-    location: createLocation(lat, ing),
+    offer: createOffer(lat, lng),
+    location: createLocation(lat, lng),
   };
 };
 
@@ -115,4 +115,4 @@ const createAds = (count) => {
   return massiveAds;
 };
 
-export {createAds, ADS_TYPES, AD_TYPES_TO_READABLE, AD_TYPES_TO_PRICE};
+export {createAds, AdsTypes, AdTypesToReadable, AdTypesToPrice};
