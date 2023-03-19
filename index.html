@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="leaflet/leaflet.css">
+  <link rel="stylesheet" href="nouislider/nouislaider.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кексобукинг</title>
 </head>
@@ -109,6 +111,7 @@
           <input id="price" name="price" type="number" placeholder="5000" max="100000"
                  data-pristine-max-message="Максимальная цена за ночь 100 000" step="100" required
                  data-pristine-required-message="Обязательное числовое поле">
+          <div class="ad-form__slider"></div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -233,7 +236,9 @@
     </div>
   </template>
 
-  <script src="./pristine/pristine.min.js"></script>
+  <script src="pristine/pristine.min.js"></script>
+  <script src="leaflet/leaflet.js"></script>
+  <script src="nouislider/nouislider.js"></script>
   <script src="js/main.js" type="module"></script>
 </body>
 </html>
