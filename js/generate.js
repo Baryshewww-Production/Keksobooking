@@ -1,5 +1,5 @@
 import {numDecline} from './util.js';
-import {AD_TYPES_TO_READABLE} from './data.js';
+import {AdTypesToReadable} from './data.js';
 
 //Нахожу главный шаблон карточки
 const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -50,7 +50,7 @@ const createPopup = ({offer, author}) => {
   adTitle.textContent = offer.title;
   adAddress.textContent = offer.address;
   adPrice.textContent = `${offer.price} ₽/ночь`;
-  adType.textContent = AD_TYPES_TO_READABLE[offer.type];
+  adType.textContent = AdTypesToReadable[offer.type];
   adCapacity.textContent = `${offer.rooms} ${numDecline(offer.rooms, 'комната', 'комнаты', 'комнат')} для ${offer.guests} ${numDecline(offer.guests, 'гостя', 'гостей', 'гостей')}`;
   adTime.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   adDescription.textContent = offer.description;
