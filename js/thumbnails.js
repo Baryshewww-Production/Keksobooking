@@ -1,11 +1,11 @@
 import {numDecline} from './util.js';
 import {AdTypesToReadable} from './data.js';
 
-//Нахожу главный шаблон карточки
+// Нахожу главный шаблон карточки
 const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-//Функция сначала в шаблоне делает клон img, каждому элементу добавляет src, добавляет его в конец шаблона, а после
-// всего удаляет этот самый клон(первый элемент[0])
+/* Функция сначала в шаблоне делает клон img, каждому элементу добавляет src, добавляет его в конец шаблона, а после
+   всего удаляет этот самый клон(первый элемент[0]) */
 const createPhotoElements = (photoArray, parentElement) => {
   photoArray.forEach((photo) => {
     const photoTemplate = parentElement.children[0].cloneNode(true);
@@ -15,7 +15,7 @@ const createPhotoElements = (photoArray, parentElement) => {
   parentElement.children[0].remove();
 };
 
-//Функция проходит по списку в шаблоне и проверяет каждый элемент. Если он не нужен - функция его удалит
+// Функция проходит по списку в шаблоне и проверяет каждый элемент. Если он не нужен - функция его удалит
 const createFeatureElements = (list, featuresArray, nameClass) => {
   list.forEach((listItem) => {
     const isExists = featuresArray.some((userFeature) => {
@@ -25,7 +25,7 @@ const createFeatureElements = (list, featuresArray, nameClass) => {
   });
 };
 
-//Проверка есть ли данные у элемента. Если нет, то элемент скрывается за отсутствием надобности
+// Проверка есть ли данные у элемента. Если нет, то элемент скрывается за отсутствием надобности
 const checkAvailableData = (data, element) => {
   if (!data) {
     element.hidden = true;
