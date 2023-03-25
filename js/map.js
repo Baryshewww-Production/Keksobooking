@@ -1,6 +1,6 @@
 import {toggleFormDisabled} from './form-switcher.js';
 import {createAds} from './data.js';
-import {createPopup} from './generate.js';
+import {createPopup} from './thumbnails.js';
 
 const MAIN_LOCATION = {
   lat: 35.675178,

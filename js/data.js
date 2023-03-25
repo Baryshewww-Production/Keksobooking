@@ -1,6 +1,6 @@
 import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, createRandomArray} from './util.js';
 
-//Создаю все необходимые массивы данных, с которыми буду потом работать с помощью функций
+// Создаю все необходимые массивы данных, с которыми буду потом работать с помощью функций
 const AdsTypes = {
   PALACE: 'palace',
   FLAT: 'flat',
@@ -68,12 +68,12 @@ const ADS_TITLES = [
   'Вам захочется приехать сюда ещё раз',
 ];
 
-//Создаю объект с номером пользователя
+// Создаю объект с номером пользователя
 const createAuthor = (avatarNumber) => ({
   avatar: `img/avatars/user${avatarNumber}.png`,
 });
 
-//Создаю объект с параметрами помещения
+// Создаю объект с параметрами помещения
 const createOffer = (lat, lng) => ({
   title: getRandomArrayElement(ADS_TITLES),
   address: `${lat}, ${lng}`,
@@ -88,13 +88,13 @@ const createOffer = (lat, lng) => ({
   photos: createRandomArray(ADS_PHOTOS),
 });
 
-//Создаю объект с локацией помещения
+// Создаю объект с локацией помещения
 const createLocation = (lat, lng) => ({
   lat,
   lng,
 });
 
-//Создаю один общий объект включающий три предыдущих. Является наполнением объявления
+// Создаю один общий объект включающий три предыдущих. Является наполнением объявления
 const createAd = (avatarNumber) => {
   const lat = getRandomPositiveFloat(35.65000, 35.70000, 5);
   const lng = getRandomPositiveFloat(139.70000, 139.80000, 5);
@@ -105,7 +105,7 @@ const createAd = (avatarNumber) => {
   };
 };
 
-//Создаю массив которых состоит из объектов объявлений
+// Создаю массив которых состоит из объектов объявлений
 const createAds = (count) => {
   const massiveAds = [];
   for (let i = 1; i < count + 1; i++) {
