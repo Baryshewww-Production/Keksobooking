@@ -1,5 +1,5 @@
 import {numDecline} from './util.js';
-import {AdTypesToReadable} from './data.js';
+import {adTypesToReadable} from './data.js';
 
 // Нахожу главный шаблон карточки
 const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -26,8 +26,8 @@ const createFeatureElements = (list, featuresArray, nameClass) => {
 };
 
 // Проверка есть ли данные у элемента. Если нет, то элемент скрывается за отсутствием надобности
-const checkAvailableData = (data, element) => {
-  if (!data) {
+const checkAvailableData = (key, element) => {
+  if (typeof key === 'undefined') {
     element.hidden = true;
   }
 };
@@ -50,7 +50,7 @@ const createPopup = ({offer, author}) => {
   adTitle.textContent = offer.title;
   adAddress.textContent = offer.address;
   adPrice.textContent = `${offer.price} ₽/ночь`;
-  adType.textContent = AdTypesToReadable[offer.type];
+  adType.textContent = adTypesToReadable[offer.type];
   adCapacity.textContent = `${offer.rooms} ${numDecline(offer.rooms, 'комната', 'комнаты', 'комнат')} для ${offer.guests} ${numDecline(offer.guests, 'гостя', 'гостей', 'гостей')}`;
   adTime.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   adDescription.textContent = offer.description;
@@ -67,8 +67,17 @@ const createPopup = ({offer, author}) => {
   checkAvailableData(offer.features, adFeatures);
   checkAvailableData(offer.photos, adPhotos);
 
-  createFeatureElements(featuresList, offer.features, 'popup__feature--');
-  createPhotoElements(offer.photos, adPhotos);
+  if (typeof offer['features'] !== 'undefined') {
+    createFeatureElements(featuresList, offer.features, 'popup__feature--');
+  } else {
+    adFeatures.hidden = true;
+  }
+
+  if (typeof offer['photos'] !== 'undefined') {
+    createPhotoElements(offer.photos, adPhotos);
+  } else {
+    adPhotos.hidden = true;
+  }
 
   return adElement;
 };
