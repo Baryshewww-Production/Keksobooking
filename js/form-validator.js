@@ -1,4 +1,4 @@
-import {AdTypesToPrice} from './data.js';
+import {adTypesToPrice} from './data.js';
 
 const form = document.querySelector('.ad-form');
 const adPrice = document.querySelector('#price');
@@ -7,7 +7,6 @@ const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
-const sliderPrice = document.querySelector('.ad-form__slider');
 const adTimeInOut = document.querySelector('.ad-form__element--time');
 
 const MAX_PRICE_FOR_NIGHT = 100000;
@@ -29,8 +28,8 @@ const pristine = new Pristine(form, {
 });
 
 // Валидация цены и типа жилья
-const validateAdPrice = (value) => value >= AdTypesToPrice[adType.value] && value <= MAX_PRICE_FOR_NIGHT;
-const getAdTypeErrorMessage = () => `Минимальная цена за ночь: ${AdTypesToPrice[adType.value]}`;
+const validateAdPrice = (value) => value >= adTypesToPrice[adType.value] && value <= MAX_PRICE_FOR_NIGHT;
+const getAdTypeErrorMessage = () => `Минимальная цена за ночь: ${adTypesToPrice[adType.value]}`;
 
 pristine.addValidator(
   adPrice,
@@ -39,15 +38,11 @@ pristine.addValidator(
 );
 
 const onAdTypeChange = function () {
-  adPrice.min = AdTypesToPrice[this.value];
-  adPrice.placeholder = AdTypesToPrice[this.value];
-  sliderPrice.noUiSlider.updateOptions({
-    range: {
-      min: AdTypesToPrice[this.value],
-      max: MAX_PRICE_FOR_NIGHT,
-    }
-  });
-  pristine.validate(adPrice);
+  adPrice.min = adTypesToPrice[this.value];
+  adPrice.placeholder = adTypesToPrice[this.value];
+  if (adPrice.value) {
+    pristine.validate(adPrice);
+  }
 };
 
 adType.addEventListener('change', onAdTypeChange);
@@ -73,33 +68,4 @@ const onTimeInOutChange = (evt) => {
 
 adTimeInOut.addEventListener('change', onTimeInOutChange);
 
-form.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (isValid) {
-    // alert('Можно отправлять');
-  } else {
-    evt.preventDefault();
-    // alert('Форма невалидна');
-  }
-});
-
-// Слайдер цены
-noUiSlider.create(sliderPrice, {
-  range: {
-    min: AdTypesToPrice[adType.value],
-    max: MAX_PRICE_FOR_NIGHT,
-  },
-  start: AdTypesToPrice[adType.value],
-  step: 100,
-});
-
-sliderPrice.noUiSlider.on('slide', () => {
-  adPrice.value = sliderPrice.noUiSlider.get();
-  pristine.validate(adPrice);
-});
-
-adPrice.addEventListener('change', () => {
-  sliderPrice.noUiSlider.set(adPrice.value);
-});
-
-// export {validateAdForm};
+export {adPrice, pristine};
