@@ -1,7 +1,7 @@
 import {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, createRandomArray} from './util.js';
 
 // Создаю все необходимые массивы данных, с которыми буду потом работать с помощью функций
-const AdsTypes = {
+const adsTypes = {
   PALACE: 'palace',
   FLAT: 'flat',
   HOUSE: 'house',
@@ -9,20 +9,20 @@ const AdsTypes = {
   HOTEL: 'hotel',
 };
 
-const AdTypesToReadable = {
-  [AdsTypes.PALACE]: 'Дворец',
-  [AdsTypes.FLAT]: 'Квартира',
-  [AdsTypes.HOUSE]: 'Дом',
-  [AdsTypes.BUNGALOW]: 'Бунгало',
-  [AdsTypes.HOTEL]: 'Отель',
+const adTypesToReadable = {
+  [adsTypes.PALACE]: 'Дворец',
+  [adsTypes.FLAT]: 'Квартира',
+  [adsTypes.HOUSE]: 'Дом',
+  [adsTypes.BUNGALOW]: 'Бунгало',
+  [adsTypes.HOTEL]: 'Отель',
 };
 
-const AdTypesToPrice = {
-  [AdsTypes.PALACE]: 10000,
-  [AdsTypes.FLAT]: 1000,
-  [AdsTypes.HOUSE]: 5000,
-  [AdsTypes.BUNGALOW]: 0,
-  [AdsTypes.HOTEL]: 3000,
+const adTypesToPrice = {
+  [adsTypes.PALACE]: 10000,
+  [adsTypes.FLAT]: 1000,
+  [adsTypes.HOUSE]: 5000,
+  [adsTypes.BUNGALOW]: 0,
+  [adsTypes.HOTEL]: 3000,
 };
 
 const CHECK_IN = [
@@ -78,7 +78,7 @@ const createOffer = (lat, lng) => ({
   title: getRandomArrayElement(ADS_TITLES),
   address: `${lat}, ${lng}`,
   price: getRandomPositiveInteger(1500, 7500),
-  type: getRandomArrayElement(Object.values(AdsTypes)),
+  type: getRandomArrayElement(Object.values(adsTypes)),
   rooms: getRandomPositiveInteger(1, 6),
   guests: getRandomPositiveInteger(1, 8),
   checkin: getRandomArrayElement(CHECK_IN),
@@ -115,4 +115,4 @@ const createAds = (count) => {
   return massiveAds;
 };
 
-export {createAds, AdsTypes, AdTypesToReadable, AdTypesToPrice};
+export {createAds, adsTypes, adTypesToReadable, adTypesToPrice};
