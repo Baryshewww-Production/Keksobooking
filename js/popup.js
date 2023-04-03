@@ -1,5 +1,5 @@
-import {numDecline} from './util.js';
-import {adTypesToReadable} from './data.js';
+import { getWordEnd } from './util.js';
+import { adTypesToReadable } from './const.js';
 
 // Нахожу главный шаблон карточки
 const similarAdTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -16,19 +16,21 @@ const createPhotoElements = (photoArray, parentElement) => {
 };
 
 // Функция проходит по списку в шаблоне и проверяет каждый элемент. Если он не нужен - функция его удалит
-const createFeatureElements = (list, featuresArray, nameClass) => {
+const createFeatureElements = (list, featuresArray) => {
   list.forEach((listItem) => {
-    const isExists = featuresArray.some((userFeature) => {
-      listItem.classList.contains(`${nameClass}${userFeature}`);
-    });
-    if (!isExists) {listItem.remove();}
+    const isExists = featuresArray.some((userFeature) =>
+      listItem.classList.contains(`popup__feature--${userFeature}`),
+    );
+    if (!isExists) {
+      listItem.remove();
+    }
   });
 };
 
 // Проверка есть ли данные у элемента. Если нет, то элемент скрывается за отсутствием надобности
 const checkAvailableData = (key, element) => {
-  if (typeof key === 'undefined') {
-    element.hidden = true;
+  if (!key) {
+    element.remove();
   }
 };
 
@@ -51,7 +53,7 @@ const createPopup = ({offer, author}) => {
   adAddress.textContent = offer.address;
   adPrice.textContent = `${offer.price} ₽/ночь`;
   adType.textContent = adTypesToReadable[offer.type];
-  adCapacity.textContent = `${offer.rooms} ${numDecline(offer.rooms, 'комната', 'комнаты', 'комнат')} для ${offer.guests} ${numDecline(offer.guests, 'гостя', 'гостей', 'гостей')}`;
+  adCapacity.textContent = `${offer.rooms} ${getWordEnd(offer.rooms, 'комната', 'комнаты', 'комнат')} для ${offer.guests} ${getWordEnd(offer.guests, 'гостя', 'гостей', 'гостей')}`;
   adTime.textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   adDescription.textContent = offer.description;
   adAvatar.src = author.avatar;
@@ -64,22 +66,20 @@ const createPopup = ({offer, author}) => {
   checkAvailableData(offer.checkin, adTime);
   checkAvailableData(offer.description, adDescription);
   checkAvailableData(author.avatar, adAvatar);
-  checkAvailableData(offer.features, adFeatures);
-  checkAvailableData(offer.photos, adPhotos);
 
-  if (typeof offer['features'] !== 'undefined') {
-    createFeatureElements(featuresList, offer.features, 'popup__feature--');
+  if (offer.features) {
+    createFeatureElements(featuresList, offer.features);
   } else {
-    adFeatures.hidden = true;
+    adFeatures.remove();
   }
 
-  if (typeof offer['photos'] !== 'undefined') {
+  if (offer.photos) {
     createPhotoElements(offer.photos, adPhotos);
   } else {
-    adPhotos.hidden = true;
+    adPhotos.remove();
   }
 
   return adElement;
 };
 
-export {createPopup};
+export { createPopup };
