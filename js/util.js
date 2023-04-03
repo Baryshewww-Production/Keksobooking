@@ -1,35 +1,7 @@
-// Функция, которая возвращает целое положительное число из заданного диапазона
-const getRandomPositiveInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-// Функция, которая возвращает положительное число с плавающей точкой
-const getRandomPositiveFloat = (a, b, digits = 1) => {
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
-  const result = Math.random() * (upper - lower) + lower;
-  return +result.toFixed(digits);
-};
-
-// Функция, которая возвращает случайный элемент из переданного массива
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
-
-// Функция, которая возвращает новый массив случайной длины, взятой из длины переданного в функцию
-const createRandomArray = (values) => {
-  const features = new Array(getRandomPositiveInteger(1, values.length));
-  for (let i = 0; i < features.length; i++) {features[i] = values[i];}
-  return features;
-};
-
 // Склонение существительных после числительного
-const numDecline = (n, form1, form2, form3) => {
+const getWordEnd = (n, form1, form2, form3) => {
   n = Math.abs(n) % 100;
-  // console.log(n);
   const n1 = n % 10;
-  // console.log(n1);
   if (n > 10 && n < 20) {
     return form3;
   }
@@ -42,7 +14,8 @@ const numDecline = (n, form1, form2, form3) => {
   return form3;
 };
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+// Функция для проверки клавиши Escape
+const getIsEscape = (evt) => evt.key === 'Escape';
 
 // Показ ошибки на всей странице
 const showAlert = (message) => {
@@ -65,15 +38,30 @@ const showAlert = (message) => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, 3000);
+  }, 2000);
+};
+
+// Функция debounce - устранение дребезга
+const debounce = (callback, timeoutDelay = 500) => {
+  // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
+  // к возвращаемой функции с SetTimeout, тогда мы его сможем перезаписывать
+  let timeoutId;
+
+  return (...rest) => {
+    // Перед каждым новым вызовом удаляем предыдущий таймаут,
+    // чтобы они не накапливались
+    clearTimeout(timeoutId);
+
+    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+  // Таким образом цикл "поставить таймаут - удалить таймаут" будет выполняться,
+  // пока действие совершается чаще, чем переданная задержка timeoutDelay
 };
 
 export {
-  getRandomPositiveInteger,
-  getRandomPositiveFloat,
-  getRandomArrayElement,
-  createRandomArray,
-  numDecline,
-  isEscapeKey,
+  getWordEnd,
+  getIsEscape,
   showAlert,
+  debounce,
 };

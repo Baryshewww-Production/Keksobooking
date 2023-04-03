@@ -1,30 +1,28 @@
-import {openSuccessSendMessage, openErrorSendMessage} from './errors.js';
-import {showAlert} from './util.js';
+import { ServerUrl } from './const.js';
 
-const getData = (onSuccess, count) => () => fetch(
-  'https://25.javascript.pages.academy/keksobooking/data',
-  {
-    method: 'GET',
-    credentials: 'same-origin',
-  },
-)
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-  })
-  .then((data) => {
-    data.slice(0, count).forEach((ad) => {
-      onSuccess(ad);
-    });
-  })
-  .catch(() => {
-    showAlert('Не удалось получить данные с сервера :(');
-  });
+const getAds = async (onError) => {
+  let response;
+  try {
+    response = await fetch(
+      ServerUrl.GET_URL,
+      {
+        method: 'GET',
+        credentials: 'same-origin',
+      },
+    );
+  }
+  catch (err) {
+    onError();
+    return [];
+  }
 
-const sendData = (body) => {
+  const allAds = await response.json();
+  return allAds;
+};
+
+const sendData = (body, reset, onSuccess, onError) => {
   fetch(
-    'https://25.javascript.pages.academy/keksobooking',
+    ServerUrl.POST_URL,
     {
       method: 'POST',
       body,
@@ -32,14 +30,15 @@ const sendData = (body) => {
   )
     .then((response) => {
       if (response.ok) {
-        openSuccessSendMessage();
+        onSuccess();
+        reset();
       } else {
-        openErrorSendMessage();
+        onError();
       }
     })
     .catch(() => {
-      openErrorSendMessage();
+      onError();
     });
 };
 
-export {getData, sendData};
+export { getAds, sendData };

@@ -1,15 +1,14 @@
-import {createPopup} from './thumbnails.js';
-import {getData} from './api.js';
-import {toggleFormDisabled} from './form-switcher.js';
+import { createPopup } from './popup.js';
+import { getAds } from './api.js';
+import { disableForm, disableMapFilters } from './form-switcher.js';
+import { debounce, showAlert } from './util.js';
+import { checkAllFilters } from './filter.js';
+import { COUNT_OF_ADS, MAP_ZOOM, RERENDER_DELAY, MAIN_LOCATION, NUMBER_AFTER_POINT, Messages } from './const.js';
 
-const COUNT_OF_ADS = 10;
-
-const MAIN_LOCATION = {
-  lat: 35.675178,
-  lng: 139.748876,
-};
+const allAds = [];
 
 const mainPinLocation = document.querySelector('#address');
+const filterForm = document.querySelector('.map__filters');
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -30,13 +29,12 @@ const getLocationToString = (obj, number) => {
   return `${lat}, ${lng}`;
 };
 
-toggleFormDisabled(true);
-
 const map = L.map('map-canvas')
   .on('load', () => {
-    toggleFormDisabled(false); // открытие - показ формы
+    disableForm(false);
   })
-  .setView(MAIN_LOCATION, 13);
+  .setView(MAIN_LOCATION, MAP_ZOOM);
+
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -52,11 +50,12 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
+
 mainPinMarker.addTo(map);
-mainPinLocation.value = getLocationToString(mainPinMarker.getLatLng(), 5);
+mainPinLocation.value = getLocationToString(mainPinMarker.getLatLng(), NUMBER_AFTER_POINT);
 
 mainPinMarker.on('moveend', (evt) => {
-  mainPinLocation.value = getLocationToString(evt.target.getLatLng(), 5);
+  mainPinLocation.value = getLocationToString(evt.target.getLatLng(), NUMBER_AFTER_POINT);
 });
 
 const markerGroup = L.layerGroup().addTo(map);
@@ -76,13 +75,38 @@ const createMarker = (ad) => {
     .bindPopup(createPopup(ad));
 };
 
-const getAds = getData(createMarker, COUNT_OF_ADS);
-getAds();
-
 const resetMainPin = () => {
   mainPinMarker.setLatLng(MAIN_LOCATION);
-  map.setView(MAIN_LOCATION, 13);
+  map.setView(MAIN_LOCATION, MAP_ZOOM);
   map.closePopup();
 };
 
-export {resetMainPin, getLocationToString, MAIN_LOCATION, mainPinLocation};
+(async () => {
+  const fetchedAds = await getAds(() => showAlert(`${Messages.GET_NO_ADS}`));
+  allAds.push(...fetchedAds);
+  allAds.slice(0, COUNT_OF_ADS).forEach((ad) => {
+    createMarker(ad);
+    disableMapFilters(false);
+  });
+})();
+
+const filterAd = () => {
+  markerGroup.clearLayers();
+  const filteredAds = allAds.filter((ad) => checkAllFilters(ad));
+  filteredAds.slice(0, COUNT_OF_ADS).forEach((ad) => {
+    createMarker(ad);
+  });
+
+  if (filteredAds.length <= 0) {
+    showAlert(`${Messages.FIND_NO_ADS}`);
+  }
+};
+
+filterForm.addEventListener('change', debounce(filterAd, RERENDER_DELAY));
+
+export {
+  resetMainPin,
+  getLocationToString,
+  mainPinLocation,
+  filterAd
+};
